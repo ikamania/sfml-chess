@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "pieces/piece.h"
+#include "pieces/pawn.h"
 #include "draw.h"
 
 void run()
