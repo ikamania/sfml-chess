@@ -5,7 +5,13 @@
 #include "pieces/pawn.h"
 #include "draw.h"
 
-void run()
+void runConnection()
+{
+
+}
+
+
+void runGame()
 {
     sf::RenderWindow window(sf::VideoMode({600, 600}), "Chess");
     window.setFramerateLimit(60);
@@ -22,4 +28,9 @@ void run()
         window.clear();
         window.display();
     }
+}
+
+void run()
+{
+
 }
