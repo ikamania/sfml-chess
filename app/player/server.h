@@ -1,35 +1,51 @@
+#include <iostream>
 #include <cstring>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
-class Server
+class Server 
 {
 public:
     int sSocket = socket(AF_INET, SOCK_STREAM, 0);
+    int running = true;
     int cSocket;
 
     sockaddr_in sAddress;
 
+    char message[1024] = {0};
+
     Server()
     {
-        serverAddress.sin_family = AF_INET;
-        serverAddress.sin_port = htons(8080);
-        serverAddress.sin_addr.s_addr = INADDR_ANY;
+        sAddress.sin_family = AF_INET;
+        sAddress.sin_port = htons(8080);
+        sAddress.sin_addr.s_addr = INADDR_ANY;
+        sAddress.sin_addr.s_addr = INADDR_ANY;
     }
 
-    void run()
+    ~Server()
     {
+        close(sSocket);
+    }
+
+    void run() 
+    {
+        std::cout << "SERVER RUNED" << std::endl;
         bind(sSocket, (struct sockaddr*)&sAddress, sizeof(sAddress));
         listen(sSocket, 5);
 
         cSocket = accept(sSocket, nullptr, nullptr);
+        std::cout << "accepted" << std::endl;
 
-        while (1)
+        while (running)
         {
-            char buffer[1024] = { 0 };
-            recv(clientSocket, buffer, sizeof(buffer), 0); 
-            std::cout << "Message from client: " << buffer << std::endl;
+            recv(cSocket, message, sizeof(message), 0); 
+            std::cout << "Message from client: " << message << std::endl;
         }
     }
-}
+
+    void sendToOpponent(const char *message)
+    {   
+        send(cSocket, message, strlen(message), 0);
+    }
+};

@@ -3,9 +3,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "draw.h"
-#include "client.h"
+#include "player/client.h"
+#include "player/server.h"
 
-void runGame(Client &player)
+template <class Player>
+void runGame(Player *player)
 {
     sf::RenderWindow window(sf::VideoMode({600, 600}), "Chess");
     window.setFramerateLimit(60);
@@ -19,23 +21,40 @@ void runGame(Client &player)
                 window.close();
             if (event.type == sf::Event::KeyPressed)
                 if (event.key.code == sf::Keyboard::Escape)
-                    player.sendMessage("HEY");
+                    player->sendToOpponent("Hi there !");      
         }
-
-        std::cout << player.message << std::endl;
 
         window.clear();
         window.display();
     }
+
+    player->running = false;
+    player->sendToOpponent("Im out !");
+}
+
+template <class Player>
+void runThreads(Player *player)
+{
+    std::thread t1(&Player::run, player);
+    std::thread t2(runGame<Player>, player);
+
+    t1.join();
+    t2.join();
 }
 
 void run()
 {
-    Client player;
+    Client *client = new Client;
 
-    std::thread clieLoop(&Client::play, &player);
-    std::thread gameLoop(runGame, std::ref(player));
+    if (client->connectToServer())
+        runThreads(client); 
+    else
+    {
+        Server *server = new Server;         
+        
+        runThreads(server);       
 
-    clieLoop.join();
-    gameLoop.join();
+        delete client;
+        delete server;
+    }
 }
