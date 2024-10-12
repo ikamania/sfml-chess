@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <string.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -22,10 +23,7 @@ public:
         sAddress.sin_addr.s_addr = INADDR_ANY;
     }
 
-    ~Client() 
-    {
-        close(cSocket);
-    }
+    ~Client() {}
 
     bool connectToServer()
     {
@@ -39,9 +37,17 @@ public:
     {
         while (running)
         {
+            std::cout << "{ CLIENT }" << std::endl;
+
             recv(cSocket, message, sizeof(message), 0); 
             std::cout << "Message from Server: " << message << std::endl;
+
+            if (strcmp(message, "OUT") == 0)
+                sendToOpponent("Your Out!");
+            memset(message, 0, sizeof(message));
         }
+
+        close(cSocket);
     }
 
     void sendToOpponent(const char *message)

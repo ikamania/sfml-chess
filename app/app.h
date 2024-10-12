@@ -29,7 +29,7 @@ void runGame(Player *player)
     }
 
     player->running = false;
-    player->sendToOpponent("Im out !");
+    player->sendToOpponent("OUT");
 }
 
 template <class Player>
