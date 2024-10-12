@@ -1,10 +1,9 @@
 class Pawn : public Piece
 {
-    Pawn(int x, int y, std::string name, std::string color) 
-        : x(x)
-        , y(y)
-        , name(name)
-        , color(color)
+public:
+    Pawn(int x, int y, const std::string& color) 
+        : Piece(x, y, color) 
     {
-    };
+        name = "pawn";
+    }
 };

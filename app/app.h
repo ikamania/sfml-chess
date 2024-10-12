@@ -2,14 +2,25 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 
-#include "draw.h"
 #include "player/client.h"
 #include "player/server.h"
+#include "piece.h"
+#include "pieces/bishop.h"
+#include "pieces/king.h"
+#include "pieces/knight.h"
+#include "pieces/pawn.h"
+#include "pieces/queen.h"
+#include "pieces/rook.h"
+
+#include "map.h"
+#include "draw.h"
 
 template <class Player>
 void runGame(Player *player)
 {
-    sf::RenderWindow window(sf::VideoMode({600, 600}), "Chess");
+    const int SIZE = 600;
+
+    sf::RenderWindow window(sf::VideoMode({SIZE, SIZE}), "Chess");
     window.setFramerateLimit(60);
 
     while (window.isOpen())
@@ -25,11 +36,19 @@ void runGame(Player *player)
         }
 
         window.clear();
+        
+        drawBoard(window, SIZE);
+        drawPieces(window, map, SIZE);
+
         window.display();
     }
 
     player->running = false;
     player->sendToOpponent("OUT");
+
+    for (auto& row : map) 
+        for (auto& piece : row) 
+            delete piece;   
 }
 
 template <class Player>
