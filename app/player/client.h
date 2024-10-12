@@ -35,10 +35,10 @@ public:
 
     void run()
     {
+        std::cout << "{ CLIENT }" << std::endl;
+
         while (running)
         {
-            std::cout << "{ CLIENT }" << std::endl;
-
             recv(cSocket, message, sizeof(message), 0); 
             std::cout << "Message from Server: " << message << std::endl;
 
