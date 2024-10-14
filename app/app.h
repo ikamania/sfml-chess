@@ -18,11 +18,16 @@
 template <class Player>
 void runGame(Player *player)
 {
-    const int SIZE = 600;
+    const int S = 600;
+    const int s = S / 8;
+    const int R = player->counter ? 1 : 0;
 
-    sf::RenderWindow window(sf::VideoMode({SIZE, SIZE}), "Chess");
+    bool mouseDown = false;
+    Piece *selectedPiece = nullptr;
+
+    sf::RenderWindow window(sf::VideoMode({S, S}), "Chess");
     window.setFramerateLimit(60);
-
+ 
     while (window.isOpen())
     {
         sf::Event event{};
@@ -30,19 +35,45 @@ void runGame(Player *player)
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
             if (event.type == sf::Event::KeyPressed)
                 if (event.key.code == sf::Keyboard::Escape)
-                    player->sendToOpponent("Hi there !");      
-        }
+                    player->sendToOpponent("Hi there !");   
 
+            if (event.type == sf::Event::MouseButtonPressed)
+                if (event.mouseButton.button == sf::Mouse::Left && selectedPiece == nullptr)
+                {
+                    selectedPiece = map[event.mouseButton.y / s][event.mouseButton.x / s];
+                
+                    if (selectedPiece != nullptr)
+                        std::cout << selectedPiece->color << " " << selectedPiece->name << std::endl;
+                }
+            if (event.type == sf::Event::MouseButtonReleased)
+                if (event.mouseButton.button == sf::Mouse::Left && selectedPiece != nullptr)
+                {
+                    if (selectedPiece->validMove())
+                        // make move && send to opponent
+                    else
+                    {
+                        selectedPiece->m = 0;
+                        selectedPiece = nullptr;
+                    }
+                }
+            
+            if (event.type == sf::Event::MouseMoved && selectedPiece != nullptr)
+            {
+                selectedPiece->m = 1;
+                selectedPiece->mx = event.mouseMove.x - s / 2;
+                selectedPiece->my = event.mouseMove.y - s / 2;
+            }
+        }
         window.clear();
-        
-        drawBoard(window, SIZE);
-        drawPieces(window, map, SIZE);
+
+        drawBoard(window, S);
+        drawPieces(window, map, S, R);
 
         window.display();
     }
-
     player->running = false;
     player->sendToOpponent("OUT");
 

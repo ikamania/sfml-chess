@@ -8,6 +8,7 @@
 class Server 
 {
 public:
+    int counter = 0;
     int sSocket = socket(AF_INET, SOCK_STREAM, 0);
     int running = true;
     int cSocket;

@@ -8,6 +8,7 @@
 class Client
 {
 public:
+    int counter = 1;
     int cSocket = socket(AF_INET, SOCK_STREAM, 0);
     int running = true;
 

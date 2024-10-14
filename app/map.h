@@ -22,6 +22,8 @@ std::vector<std::vector<Piece*>> map = {
 
     {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
     {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
 
     {
         new Pawn(0, 6, "white"),

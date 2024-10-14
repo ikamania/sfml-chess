@@ -1,6 +1,6 @@
-void drawBoard(sf::RenderWindow &window, const int &SIZE)
+void drawBoard(sf::RenderWindow &window, const int &S)
 {
-    int s = SIZE / 8;
+    int s = S / 8;
 
     sf::RectangleShape rectangle(sf::Vector2f(s, s));
     std::vector<sf::Color> colors = {sf::Color(238, 238, 210), sf::Color(75, 72, 71)};
@@ -17,9 +17,11 @@ void drawBoard(sf::RenderWindow &window, const int &SIZE)
     }
 }
 
-void drawPieces(sf::RenderWindow &window, std::vector<std::vector<Piece*>> &map, const int &SIZE)
+void drawPieces(sf::RenderWindow &window, std::vector<std::vector<Piece*>> &map, const int &S, int reverse)
 {
-    int s = SIZE / 8;
+    int s = S / 8;
+    int x;
+    int y;
 
     for (auto &line : map)
         for (auto &piece : line)
@@ -27,13 +29,16 @@ void drawPieces(sf::RenderWindow &window, std::vector<std::vector<Piece*>> &map,
             if (piece == nullptr)
                 break;
             
+            x = piece->m ? piece->mx : (reverse ? S - s - piece->x * s : piece->x * s);
+            y = piece->m ? piece->my : (reverse ? S - s - piece->y * s : piece->y * s);
+            
             sf::Sprite sprite;
             sf::Texture texture;
 
             texture.loadFromFile("app/assets/" + piece->color + "/" + piece->name + ".png");
 
             sprite.setTexture(texture);
-            sprite.setPosition(piece->x * s, piece->y * s);  
+            sprite.setPosition(x, y);  
 
             sf::Vector2f newSize(s, s);
             sprite.setScale(
