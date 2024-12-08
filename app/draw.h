@@ -17,7 +17,7 @@ void drawBoard(sf::RenderWindow &window, const int &S)
     }
 }
 
-void drawPieces(sf::RenderWindow &window, std::vector<std::vector<Piece*>> &map, const int &S, int reverse)
+void drawPieces(sf::RenderWindow &window, std::vector<std::vector<Piece*>> &map, const int S, int reverse)
 {
     int s = S / 8;
     int x;
@@ -27,10 +27,10 @@ void drawPieces(sf::RenderWindow &window, std::vector<std::vector<Piece*>> &map,
         for (auto &piece : line)
         {
             if (piece == nullptr)
-                break;
+                continue;
             
-            x = piece->m ? piece->mx : (reverse ? S - s - piece->x * s : piece->x * s);
-            y = piece->m ? piece->my : (reverse ? S - s - piece->y * s : piece->y * s);
+            x = piece->m ? piece->mx - s / 2 : (reverse ? S - s - piece->x * s : piece->x * s);
+            y = piece->m ? piece->my - s / 2 : (reverse ? S - s - piece->y * s : piece->y * s);
             
             sf::Sprite sprite;
             sf::Texture texture;

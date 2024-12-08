@@ -10,13 +10,12 @@ class Client
 public:
     int counter = 1;
     int cSocket = socket(AF_INET, SOCK_STREAM, 0);
-    int running = true;
 
     sockaddr_in sAddress;
 
     char message[1024] = {0};
     
-    Client() 
+    Client()
     {
         sAddress.sin_family = AF_INET;
         sAddress.sin_port = htons(8080);
@@ -34,25 +33,23 @@ public:
         return true;
     }
 
-    void run()
+    void run(std::string &message)
     {
         std::cout << "{ CLIENT }" << std::endl;
 
-        while (running)
+        while (1)
         {
-            recv(cSocket, message, sizeof(message), 0); 
-            std::cout << "Message from Server: " << message << std::endl;
-
-            if (strcmp(message, "OUT") == 0)
-                sendToOpponent("Your Out!");
-            memset(message, 0, sizeof(message));
+            recv(cSocket, &message[0], message.size(), 0);
+ 
+            std::cout << "Server: " << message << std::endl;
         }
 
         close(cSocket);
     }
 
-    void sendToOpponent(const char *message)
+    void sendToOpponent(std::string message)
     {   
-        send(cSocket, message, strlen(message), 0);
+        std::cout << message << std::endl;
+        send(cSocket, message.c_str(), message.size(), 0);
     }
 };

@@ -1,0 +1,2 @@
+#!env bash
+g++ main.cpp -o sfml -lsfml-graphics -lsfml-window -lsfml-system

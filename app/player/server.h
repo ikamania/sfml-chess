@@ -10,7 +10,6 @@ class Server
 public:
     int counter = 0;
     int sSocket = socket(AF_INET, SOCK_STREAM, 0);
-    int running = true;
     int cSocket;
 
     sockaddr_in sAddress;
@@ -27,7 +26,7 @@ public:
 
     ~Server() {}
 
-    void run() 
+    void run(std::string &message) 
     {
         std::cout << "{ SERVER }" << std::endl;
         bind(sSocket, (struct sockaddr*)&sAddress, sizeof(sAddress));
@@ -35,22 +34,19 @@ public:
 
         cSocket = accept(sSocket, nullptr, nullptr);
 
-        while (running)
+        while (1)
         {
-            recv(cSocket, message, sizeof(message), 0); 
-            std::cout << "Message from client: " << message << std::endl;
+            recv(cSocket, &message[0], message.size(), 0);
 
-            if (strcmp(message, "OUT") == 0)
-                sendToOpponent("Your Out!");
-            memset(message, 0, sizeof(message));
+            std::cout << "Client: " << message << std::endl; 
         }
 
         close(cSocket);
         close(sSocket);
     }
 
-    void sendToOpponent(const char *message)
+    void sendToOpponent(std::string message)
     {   
-        send(cSocket, message, strlen(message), 0);
+        send(cSocket, message.c_str(), message.size(), 0);
     }
 };
