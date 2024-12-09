@@ -36,11 +36,13 @@ public:
         return 0;
     }
 
-    bool basicCheck(int c, int R)
+    bool basicCheck(std::vector<std::vector<Piece*>> &map, int nx, int ny, int c, int R)
     {
         if ((color == "white" && R) || (color == "black" && !R))
             return 0;
         if ((!R && c % 2 == 0) || (R && c % 2 == 1))
+            return 0;
+        if (map[ny][nx] != nullptr && map[ny][nx]->color == color)
             return 0;
         
         return 1;

@@ -4,9 +4,9 @@
 #include <sstream>
 
 #include "config.h"
+#include "piece.h"
 #include "player/client.h"
 #include "player/server.h"
-#include "pieces/piece.h"
 #include "pieces/bishop.h"
 #include "pieces/king.h"
 #include "pieces/knight.h"
@@ -49,8 +49,8 @@ void runGame(Player *player, std::string &message)
 
                     selectedPiece = map[y][x];
                     
-                    if (selectedPiece != nullptr)
-                        std::cout << selectedPiece->color << " " << selectedPiece->name << std::endl;
+                    /*if (selectedPiece != nullptr)*/
+                    /*    std::cout << selectedPiece->color << " " << selectedPiece->name << std::endl;*/
                 }
             if (event.type == sf::Event::MouseButtonReleased)
                 if (event.mouseButton.button == sf::Mouse::Left && selectedPiece != nullptr)
@@ -58,10 +58,8 @@ void runGame(Player *player, std::string &message)
                     x = R ? 7 - event.mouseButton.x / s : event.mouseButton.x / s;
                     y = R ? 7 - event.mouseButton.y / s : event.mouseButton.y / s;
 
-                    if ((x != selectedPiece->x || y != selectedPiece->y) && 
-                        selectedPiece->validMoves(map, event.mouseButton.x, event.mouseButton.y, c, R))
+                    if (selectedPiece->validMoves(map, x, y, c, R))
                     {
-                                               
                         player->sendToOpponent(debugOutput(selectedPiece->x, selectedPiece->y, x, y));                       
                         movePiece(selectedPiece, map, x, y, c);
                     } else {
@@ -69,7 +67,7 @@ void runGame(Player *player, std::string &message)
                     }
                     
                     selectedPiece = nullptr;
-                    boardPrint(map);
+                    /*boardPrint(map);*/
                 }
 
             if (event.type == sf::Event::MouseMoved && selectedPiece != nullptr)
@@ -85,13 +83,14 @@ void runGame(Player *player, std::string &message)
 
         drawBoard(window, S);
         drawPieces(window, map, S, R);
-
+        
         window.display();
     }
     
     for (auto &row : map)
         for (auto &piece : row)
             delete piece;
+    delete player;
 
     std::exit(0);
 }

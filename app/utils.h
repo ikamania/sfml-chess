@@ -1,4 +1,4 @@
-void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int ny, int &c)
+void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int ny, int &c) 
 {
     Piece* &cell = map[ny][nx];
 
