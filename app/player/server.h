@@ -28,7 +28,7 @@ public:
 
     void run(std::string &message) 
     {
-        std::cout << "{ SERVER }" << std::endl;
+        std::cout << "{ PLAYER 1 }" << std::endl;
         bind(sSocket, (struct sockaddr*)&sAddress, sizeof(sAddress));
         listen(sSocket, 5);
 

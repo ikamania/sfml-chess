@@ -13,8 +13,12 @@ public:
             return 0;
 
         if ((R && y == 1 && ny == y + 2) || (!R && y == 6 && ny == y - 2))
-            if (nx == x && map[ny][nx] == nullptr)   
+        {
+            int e = R ? 1 : -1;
+
+            if (nx == x && map[y + e][nx] == nullptr && map[ny][nx] == nullptr)   
                 return 1;
+        }
 
         if (((R && ny == y + 1) || (!R && ny == y - 1)))
         {

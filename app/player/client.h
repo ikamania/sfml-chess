@@ -35,7 +35,7 @@ public:
 
     void run(std::string &message)
     {
-        std::cout << "{ CLIENT }" << std::endl;
+        std::cout << "{ PLAYER 2 }" << std::endl;
 
         while (1)
         {
