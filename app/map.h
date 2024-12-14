@@ -21,8 +21,8 @@ std::vector<std::vector<Piece*>> map = {
     },
 
     {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, new Queen(7, 3, "white")},
-    {nullptr, nullptr, new Bishop(2, 4, "white"), nullptr, nullptr, nullptr, nullptr, nullptr},
+    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
     {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
 
     {
