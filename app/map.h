@@ -21,16 +21,16 @@ std::vector<std::vector<Piece*>> map = {
     },
 
     {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-    {nullptr, nullptr, nullptr, nullptr, new Knight(4, 3, "white"), nullptr, nullptr, nullptr},
+    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, new Queen(7, 3, "white")},
+    {nullptr, nullptr, new Bishop(2, 4, "white"), nullptr, nullptr, nullptr, nullptr, nullptr},
     {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-    {new Rook(0, 5, "white"), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
 
     {
         new Pawn(0, 6, "white"),
         new Pawn(1, 6, "white"),
         new Pawn(2, 6, "white"),
         new Pawn(3, 6, "white"),
-        new Pawn(4, 6, "white"),
+        new Pawn(4, 7, "white"),
         new Pawn(5, 6, "white"),
         new Pawn(6, 6, "white"),
         new Pawn(7, 6, "white")

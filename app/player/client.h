@@ -35,13 +35,13 @@ public:
 
     void run(std::string &message)
     {
-        std::cout << "{ PLAYER 2 }" << std::endl;
+        std::cout << "PLAYER 2" << std::endl;
 
         while (1)
         {
             recv(cSocket, &message[0], message.size(), 0);
  
-            std::cout << "Server: " << message << std::endl;
+            //std::cout << "Server: " << message << std::endl;
         }
 
         close(cSocket);
@@ -49,7 +49,6 @@ public:
 
     void sendToOpponent(std::string message)
     {   
-        std::cout << message << std::endl;
         send(cSocket, message.c_str(), message.size(), 0);
     }
 };

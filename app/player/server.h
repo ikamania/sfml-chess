@@ -28,8 +28,13 @@ public:
 
     void run(std::string &message) 
     {
-        std::cout << "{ PLAYER 1 }" << std::endl;
+        std::cout << "PLAYER 1" << std::endl;
+        
+        int opt = 1;
+
+        setsockopt(sSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
         bind(sSocket, (struct sockaddr*)&sAddress, sizeof(sAddress));
+        
         listen(sSocket, 5);
 
         cSocket = accept(sSocket, nullptr, nullptr);
@@ -38,7 +43,7 @@ public:
         {
             recv(cSocket, &message[0], message.size(), 0);
 
-            std::cout << "Client: " << message << std::endl; 
+            //std::cout << "Client: " << message << std::endl; 
         }
 
         close(cSocket);

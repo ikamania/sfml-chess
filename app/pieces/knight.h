@@ -26,8 +26,7 @@ public:
     {
         if (!basicCheck(map, nx, ny, c, R))
             return 0;
-        
-        if (swastika(map, nx, ny, c, R))
+        if (swastika(map, nx, ny, c, R) && checkCheck(map, nx, ny))
             return 1;
 
         return 0;

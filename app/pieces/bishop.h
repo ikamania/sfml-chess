@@ -11,7 +11,7 @@ public:
     {
         if (!basicCheck(map, nx, ny, c, R))
             return 0;
-        if (diagonalAngles(map, nx, ny, c, R))
+        if (diagonalAngles(map, nx, ny, c, R) && checkCheck(map, nx, ny))
             return 1;
 
         return 0;    

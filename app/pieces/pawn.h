@@ -7,11 +7,8 @@ public:
         name = "pawn";
     }
 
-    bool virtual validMoves(std::vector<std::vector<Piece*>> &map, int nx, int ny, int c, int R)
+    bool leftRight(std::vector<std::vector<Piece*>> &map, int nx, int ny, int R)
     {
-        if (!basicCheck(map, nx, ny, c, R))
-            return 0;
-
         if ((R && y == 1 && ny == y + 2) || (!R && y == 6 && ny == y - 2))
         {
             int e = R ? 1 : -1;
@@ -29,7 +26,17 @@ public:
                 if (nx == x + i && map[ny][nx] != nullptr && map[ny][nx]->color != color )
                     return 1;
         }
+        
+        return 0;
+    }
 
+    bool virtual validMoves(std::vector<std::vector<Piece*>> &map, int nx, int ny, int c, int R)
+    {
+        if (!basicCheck(map, nx, ny, c, R))
+            return 0;
+        if (leftRight(map, nx, ny, R) && checkCheck(map, nx, ny))
+            return 1;
+        
         return 0;
     }
 };

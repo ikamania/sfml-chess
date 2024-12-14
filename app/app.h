@@ -48,9 +48,6 @@ void runGame(Player *player, std::string &message)
                     y = R ? 7 - event.mouseButton.y / s : event.mouseButton.y / s;
 
                     selectedPiece = map[y][x];
-                    
-                    /*if (selectedPiece != nullptr)*/
-                    /*    std::cout << selectedPiece->color << " " << selectedPiece->name << std::endl;*/
                 }
             if (event.type == sf::Event::MouseButtonReleased)
                 if (event.mouseButton.button == sf::Mouse::Left && selectedPiece != nullptr)
@@ -67,7 +64,6 @@ void runGame(Player *player, std::string &message)
                     }
                     
                     selectedPiece = nullptr;
-                    /*boardPrint(map);*/
                 }
 
             if (event.type == sf::Event::MouseMoved && selectedPiece != nullptr)
@@ -77,6 +73,15 @@ void runGame(Player *player, std::string &message)
         
         if (message[0] != '\0') {
             debugInput(message, map, c);
+            
+            message.clear();
+            message.resize(1024, '\0');
+
+            if (checkMate(map, c, R)) {
+                player->sendToOpponent("W");
+
+                std::cout << "L" << std::endl;
+            }
         }
 
         window.clear();

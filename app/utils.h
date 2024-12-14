@@ -42,6 +42,13 @@ void boardPrint(std::vector<std::vector<Piece*>> &map)
     }
 }
 
+void endGame(std::vector<std::vector<Piece*>> &map)
+{
+    for (auto &line : map)
+        for (auto &piece : line)
+            delete piece;
+}
+
 std::string debugOutput(int x, int y, int nx, int ny)
 {
     std::stringstream ss;
@@ -51,8 +58,17 @@ std::string debugOutput(int x, int y, int nx, int ny)
     return ss.str();
 }
 
-void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int &c)
+void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int c)
 {
+    if (message.at(0) == 'W') {
+        std::cout << "W" << std::endl;
+        
+        message.clear();
+        message.resize(1024, '\0'); // RR
+        
+        return;
+    }
+
     int x, y, nx, ny;
 
     std::stringstream ss(message);
@@ -66,3 +82,24 @@ void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int
     message.clear();
     message.resize(1024, '\0');
 }
+
+bool checkMate(std::vector<std::vector<Piece*>> &map, int c, int R)
+{
+    std::string color = R ? "black" : "white";
+
+    for (auto &line : map)
+        for(auto &piece : line)
+            if (piece != nullptr && piece->color == color && piece->name == "king" && !piece->checkDeath(map))
+                return 0;
+
+    for (auto &line : map)
+        for(auto &piece : line)
+            if (piece != nullptr && piece->color == color)
+                for (int x = 0; x < 8; x++)
+                    for(int y = 0; y < 8; y++)
+                        if (piece->validMoves(map, x, y, c, R))
+                            return 0;
+
+    return 1;
+}
+
