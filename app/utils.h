@@ -58,14 +58,11 @@ std::string debugOutput(int x, int y, int nx, int ny)
     return ss.str();
 }
 
-void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int c)
+void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int &c)
 {
     if (message.at(0) == 'W') {
         std::cout << "W" << std::endl;
-        
-        message.clear();
-        message.resize(1024, '\0'); // RR
-        
+
         return;
     }
 
@@ -74,13 +71,10 @@ void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int
     std::stringstream ss(message);
 
     ss >> x >> y >> nx >> ny; 
-    
+
     Piece *selectedPiece = map[y][x];
     
     movePiece(selectedPiece, map, nx, ny, c);
-
-    message.clear();
-    message.resize(1024, '\0');
 }
 
 bool checkMate(std::vector<std::vector<Piece*>> &map, int c, int R)
