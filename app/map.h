@@ -30,7 +30,7 @@ std::vector<std::vector<Piece*>> map = {
         new Pawn(1, 6, "white"),
         new Pawn(2, 6, "white"),
         new Pawn(3, 6, "white"),
-        new Pawn(4, 7, "white"),
+        new Pawn(4, 6, "white"),
         new Pawn(5, 6, "white"),
         new Pawn(6, 6, "white"),
         new Pawn(7, 6, "white")
