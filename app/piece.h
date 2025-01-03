@@ -63,7 +63,7 @@ public:
         
         newPiece->x = nx;
         newPiece->y = ny;
-
+        
         for (auto &line : map)
             for (auto &piece : line)
                 if (piece != nullptr && piece->color == color && piece->name == "king")

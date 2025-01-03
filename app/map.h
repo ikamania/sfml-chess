@@ -37,9 +37,9 @@ std::vector<std::vector<Piece*>> map = {
     },
     {
         new Rook(0, 7, "white"),
-        new Knight(1, 7, "white"),
-        new Bishop(2, 7, "white"),
-        new Queen(3, 7, "white"),
+        nullptr,
+        nullptr,
+        nullptr,
         new King(4, 7, "white"),
         new Bishop(5, 7, "white"),
         new Knight(6, 7, "white"),
