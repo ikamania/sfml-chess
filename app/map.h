@@ -41,8 +41,8 @@ std::vector<std::vector<Piece*>> map = {
         nullptr,
         nullptr,
         new King(4, 7, "white"),
-        new Bishop(5, 7, "white"),
-        new Knight(6, 7, "white"),
+        nullptr,
+        nullptr,
         new Rook(7, 7, "white")
     }
 };
