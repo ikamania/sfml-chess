@@ -1,8 +1,6 @@
 class King : public Piece
 {
 public:
-    int movd = 0;
-
     King(int x, int y, const std::string &color) 
         : Piece(x, y, color) 
     {
@@ -19,16 +17,14 @@ public:
 
     bool castle(std::vector<std::vector<Piece*>> &map, int nx, int ny)
     {
-        if (movd > 0)
-            return 0;
-        if (ny != y && (nx != x - 2 || nx != x + 2))
+        if (o || ny != y && (nx != x - 2 || nx != x + 2))
             return 0;
         int d = nx > x ? 1 : -1;
 
         if ((d < 0 && (map[y][0] == nullptr || map[y][0]->name != "rook")) || 
             (d > 0 && (map[y][7] == nullptr || map[y][7]->name != "rook")))
             return 0;
-        if (!checkCheck(map, nx, ny))
+        if (checkDeath(map))
             return 0;
 
         for (int i = 1; i < 3; i++) {

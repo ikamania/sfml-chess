@@ -1,5 +1,12 @@
-void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int ny, int &c) 
+void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int ny) 
 {
+    if (piece->name == "king" && abs(piece->x - nx) > 1) {
+        int x = nx > piece->x ? 7 : 0;
+        int d = nx > piece->x ? -1 : 1;
+
+        movePiece(map[piece->y][x], map, nx + d, piece->y);
+    }
+
     Piece* &cell = map[ny][nx];
 
     if (cell != nullptr) {
@@ -19,7 +26,7 @@ void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int 
     } else if (piece->name == "king")  {
         cell = new King(nx, ny, piece->color);
     }
-    c++;
+    cell->o = 1;
 
     map[piece->y][piece->x] = nullptr;
     delete piece;
@@ -74,7 +81,8 @@ void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int
 
     Piece *selectedPiece = map[y][x];
     
-    movePiece(selectedPiece, map, nx, ny, c);
+    movePiece(selectedPiece, map, nx, ny);
+    c++;
 }
 
 bool checkMate(std::vector<std::vector<Piece*>> &map, int c, int R)

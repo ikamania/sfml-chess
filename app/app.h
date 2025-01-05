@@ -58,7 +58,8 @@ void runGame(Player *player, std::string &message)
                     if (selectedPiece->validMoves(map, x, y, c, R))
                     {
                         player->sendToOpponent(debugOutput(selectedPiece->x, selectedPiece->y, x, y));                       
-                        movePiece(selectedPiece, map, x, y, c);
+                        movePiece(selectedPiece, map, x, y);
+                        c++;
                     } else {
                         selectedPiece->m = 0;
                     }

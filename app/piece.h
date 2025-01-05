@@ -4,6 +4,7 @@ public:
     int x;
     int y;
     bool m = 0;
+    bool o = 0; // if piece moved true
     int mx = 0;
     int my = 0;
 
