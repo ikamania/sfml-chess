@@ -40,8 +40,6 @@ public:
         while (1)
         {
             recv(cSocket, &message[0], message.size(), 0);
- 
-            //std::cout << "Server: " << message << std::endl;
         }
 
         close(cSocket);

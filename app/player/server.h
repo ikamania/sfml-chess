@@ -42,8 +42,6 @@ public:
         while (1)
         {
             recv(cSocket, &message[0], message.size(), 0);
-
-            //std::cout << "Client: " << message << std::endl; 
         }
 
         close(cSocket);

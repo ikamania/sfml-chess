@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 
-#include "config.h"
 #include "piece.h"
 #include "player/client.h"
 #include "player/server.h"
@@ -20,13 +19,21 @@
 template <class Player>
 void runGame(Player *player, std::string &message)
 {
+    const int S = 600;
+    const int s = S / 8;
+
     int R = player->counter ? 1 : 0;
     int c = 1;
     int x;
     int y;
+    int ox;
+    int oy;
 
     bool mouseDown = false;
+    bool promotion = false;
+
     Piece *selectedPiece = nullptr;
+    std::string name = " ";
 
     sf::RenderWindow window(sf::VideoMode({S, S}), "Chess");
     window.setFramerateLimit(60);
@@ -42,24 +49,43 @@ void runGame(Player *player, std::string &message)
             }
 
             if (event.type == sf::Event::MouseButtonPressed)
-                if (event.mouseButton.button == sf::Mouse::Left && selectedPiece == nullptr)
-                {
+                if (event.mouseButton.button == sf::Mouse::Left && selectedPiece == nullptr) {
+                    
+
+                    if (promotion) {
+                        name = checkPromotion(x, y, event.mouseButton.x / s, event.mouseButton.y / s, R);
+
+                        if (name != " ") {
+                            promotion = false;
+                            
+                            player->sendToOpponent(debugOutput(ox, oy, x, y, name));
+                            changePiece(name, map, x, y);
+                        }
+                    }
+                    else {
+                        x = R ? 7 - event.mouseButton.x / s : event.mouseButton.x / s;
+                        y = R ? 7 - event.mouseButton.y / s : event.mouseButton.y / s;
+
+                        selectedPiece = map[y][x];
+                    }
+                }
+            if (event.type == sf::Event::MouseButtonReleased)
+                if (event.mouseButton.button == sf::Mouse::Left && selectedPiece != nullptr) {
                     x = R ? 7 - event.mouseButton.x / s : event.mouseButton.x / s;
                     y = R ? 7 - event.mouseButton.y / s : event.mouseButton.y / s;
 
-                    selectedPiece = map[y][x];
-                }
-            if (event.type == sf::Event::MouseButtonReleased)
-                if (event.mouseButton.button == sf::Mouse::Left && selectedPiece != nullptr)
-                {
-                    x = R ? 7 - event.mouseButton.x / s : event.mouseButton.x / s;
-                    y = R ? 7 - event.mouseButton.y / s : event.mouseButton.y / s;
+                    ox = selectedPiece->x;
+                    oy = selectedPiece->y;
 
                     if (selectedPiece->validMoves(map, x, y, c, R))
                     {
-                        player->sendToOpponent(debugOutput(selectedPiece->x, selectedPiece->y, x, y));                       
                         movePiece(selectedPiece, map, x, y);
                         c++;
+
+                        if (selectedPiece->name == "pawn" && ((R && y == 7) || (!R && y == 0)))
+                            promotion = 1;
+                        else
+                            player->sendToOpponent(debugOutput(ox, oy, x, y, " "));           
                     } else {
                         selectedPiece->m = 0;
                     }
@@ -79,6 +105,7 @@ void runGame(Player *player, std::string &message)
             message.resize(1024, '\0');
 
             if (checkMate(map, c, R)) {
+
                 player->sendToOpponent("W");
 
                 std::cout << "L" << std::endl;
@@ -87,8 +114,11 @@ void runGame(Player *player, std::string &message)
 
         window.clear();
 
-        drawBoard(window, S);
-        drawPieces(window, map, S, R);
+        drawBoard(window, s);
+        drawPieces(window, map, s, S, R);
+
+        if (promotion)
+            drawPromotion(window, s, R, x, y);
         
         window.display();
     }

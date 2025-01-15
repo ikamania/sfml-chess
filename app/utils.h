@@ -32,21 +32,18 @@ void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int 
     delete piece;
 }
 
-void boardPrint(std::vector<std::vector<Piece*>> &map)
+void changePiece(std::string name, std::vector<std::vector<Piece*>> &map, int x, int y)
 {
-    for (auto &line : map)
-    {
-        for (auto &piece : line)
-        {
-            if (piece == nullptr) {
-                std::cout << "0";
-            }
-            else {
-                std::cout << piece->name[0];
-            }
-        }
-        std::cout << std::endl;
-    }
+    std::string color = map[y][x]->color;
+
+    if (name == "queen") 
+        map[y][x] = new Queen(x, y, color);
+    else if (name == "knight")
+        map[y][x] = new Knight(x, y, color);
+    else if (name == "rook")
+        map[y][x] = new Rook(x, y, color);
+    else if (name == "bishop")
+        map[y][x] = new Bishop(x, y, color);
 }
 
 void endGame(std::vector<std::vector<Piece*>> &map)
@@ -56,11 +53,11 @@ void endGame(std::vector<std::vector<Piece*>> &map)
             delete piece;
 }
 
-std::string debugOutput(int x, int y, int nx, int ny)
+std::string debugOutput(int x, int y, int nx, int ny, std::string message)
 {
     std::stringstream ss;
 
-    ss << x << " " << y << " " << nx << " " << ny; 
+    ss << x << " " << y << " " << nx << " " << ny << " " << message << " "; 
 
     return ss.str();
 }
@@ -74,15 +71,19 @@ void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int
     }
 
     int x, y, nx, ny;
+    std::string name;
 
     std::stringstream ss(message);
 
-    ss >> x >> y >> nx >> ny; 
+    ss >> x >> y >> nx >> ny >> name;
 
     Piece *selectedPiece = map[y][x];
     
     movePiece(selectedPiece, map, nx, ny);
     c++;
+    
+    if (name != " ")
+        changePiece(name, map, nx, ny);
 }
 
 bool checkMate(std::vector<std::vector<Piece*>> &map, int c, int R)
@@ -105,3 +106,13 @@ bool checkMate(std::vector<std::vector<Piece*>> &map, int c, int R)
     return 1;
 }
 
+std::string checkPromotion(int ox, int oy, int x, int y, int R)
+{
+    std::vector<std::string> pieces = {"queen", "knight", "rook", "bishop"};
+
+    x = R ? 7 - x : x;
+
+    if (ox == x && y < 4)
+        return pieces[y];
+    return " ";
+}
