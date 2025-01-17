@@ -1,4 +1,4 @@
-### Run 
+### run 
 Download [SFML](https://github.com/SFML/SFML#download)
 ```bash
 git clone https://github.com/ikamania/sfml-chess.git
