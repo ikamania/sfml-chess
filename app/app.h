@@ -38,6 +38,8 @@ void runGame(Player *player, std::string &message)
     sf::RenderWindow window(sf::VideoMode({S, S}), "Chess");
     window.setFramerateLimit(60);
 
+    loadPieceCoordinates(map);
+
     while (window.isOpen())
     {
         sf::Event event{};

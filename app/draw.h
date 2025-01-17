@@ -17,6 +17,8 @@ void drawBoard(sf::RenderWindow &window, int s)
 
 void drawPiece(sf::RenderWindow &window, int R, int s, std::string color, std::string name, int x, int y)
 {
+    color = color == "w" ? "white" : "black";
+
     sf::Sprite sprite;
     sf::Texture texture;
 

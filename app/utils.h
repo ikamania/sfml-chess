@@ -1,3 +1,22 @@
+void loadPieceCoordinates(std::vector<std::vector<Piece*>> &map)
+{
+    int x = 0;
+    int y = 0;
+
+    for (auto &line : map) {
+        for(auto &piece : line) {
+            if (piece != nullptr) {
+                piece->x = x;
+                piece->y = y;
+            }
+            x++;
+        }
+        x = 0;
+
+        y++;
+    }
+}
+
 void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int ny) 
 {
     if (piece->name == "king" && abs(piece->x - nx) > 1) {
@@ -26,7 +45,7 @@ void movePiece(Piece *piece, std::vector<std::vector<Piece*>> &map, int nx, int 
     } else if (piece->name == "king")  {
         cell = new King(nx, ny, piece->color);
     }
-    cell->o = 1;
+    cell->o = 1; // moved indicator
 
     map[piece->y][piece->x] = nullptr;
     delete piece;
@@ -88,7 +107,7 @@ void debugInput(std::string &message, std::vector<std::vector<Piece*>> &map, int
 
 bool checkMate(std::vector<std::vector<Piece*>> &map, int c, int R)
 {
-    std::string color = R ? "black" : "white";
+    std::string color = R ? "b" : "w";
 
     for (auto &line : map)
         for(auto &piece : line)

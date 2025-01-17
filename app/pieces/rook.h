@@ -1,8 +1,14 @@
 class Rook : public Queen
 {
 public:
-    Rook(int x, int y, const std::string &color) 
-        : Queen(x, y, color) 
+    Rook(std::string color) 
+        : Queen(color) 
+    {
+        name = "rook";
+    }
+
+    Rook(int x, int y, std::string color)
+        : Queen(x, y, color)
     {
         name = "rook";
     }

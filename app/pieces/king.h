@@ -1,7 +1,13 @@
 class King : public Piece
 {
 public:
-    King(int x, int y, const std::string &color) 
+    King(std::string color) 
+        : Piece(color) 
+    {
+        name = "king";
+    }
+
+    King(int x, int y, std::string color)
         : Piece(x, y, color) 
     {
         name = "king";
@@ -37,7 +43,7 @@ public:
 
     bool checkDeath(std::vector<std::vector<Piece*>> &map)
     {
-        int s = (color == "black") ? 1 : -1;
+        int s = (color == "b") ? 1 : -1;
         
         for (int i = 1; i > -2; i -= 2) // Pawn
         {

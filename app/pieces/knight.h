@@ -1,7 +1,13 @@
 class Knight : public Piece
 {
 public:
-    Knight(int x, int y, const std::string &color) 
+    Knight(std::string color) 
+        : Piece(color) 
+    {
+        name = "knight";
+    }
+
+    Knight(int x, int y, std::string color)
         : Piece(x, y, color) 
     {
         name = "knight";

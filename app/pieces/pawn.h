@@ -1,7 +1,13 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(int x, int y, const std::string &color) 
+    Pawn(std::string color) 
+        : Piece(color) 
+    {
+        name = "pawn";
+    }
+
+    Pawn(int x, int y, std::string color)
         : Piece(x, y, color) 
     {
         name = "pawn";

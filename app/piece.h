@@ -11,12 +11,17 @@ public:
     std::string color;
     std::string name;
 
-    Piece(int x, int y, std::string color) 
+    Piece(std::string color) 
+        : color(color)
+    {
+    }
+
+    Piece(int x, int y, std::string color)
         : x(x)
         , y(y)
-        , color(color)
+        , color(color)    
     {
-    };
+    }
 
     bool move(int new_x, int new_y, int S)
     {   
@@ -39,7 +44,7 @@ public:
 
     bool basicCheck(std::vector<std::vector<Piece*>> &map, int nx, int ny, int c, int R)
     {
-        if ((color == "white" && R) || (color == "black" && !R))
+        if ((color == "w" && R) || (color == "b" && !R))
             return 0;
         if ((!R && c % 2 == 0) || (R && c % 2 == 1))
             return 0;

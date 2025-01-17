@@ -1,8 +1,14 @@
 class Bishop : public Queen
 {
 public:
-    Bishop(int x, int y, const std::string &color) 
-        : Queen(x, y, color) 
+    Bishop(std::string color) 
+        : Queen(color) 
+    {
+        name = "bishop";
+    }
+
+    Bishop(int x, int y, std::string color)
+        : Queen(x, y, color)       
     {
         name = "bishop";
     }
